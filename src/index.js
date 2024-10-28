@@ -97,14 +97,33 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
+// function Pizza(props) {
+//   if (props.pizzaObj.soldOut) return null;
+
+//   return (
+//     <li className='pizza'>
+//       <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+//       <div>
+//         <h3>{props.pizzaObj.name}</h3>
+//         <p>{props.pizzaObj.ingredients}</p>
+//         <span>{props.pizzaObj.price}</span>
+//       </div>
+//     </li>
+//   );
+// }
+
+// Instead of using Props every time in our component, let's destructure them so they can directly receive the object into the component:
+
+function Pizza({ pizzaObj }) {
+  if (pizzaObj.soldOut) return null;
+
   return (
     <li className='pizza'>
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price}</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.price}</span>
       </div>
     </li>
   );
@@ -121,13 +140,27 @@ function Footer() {
   // else alert("Sorry, We're closed.");
   return (
     <footer className='footer'>
-      {isOpen && (
-        <div className='order'>
-          <p>We're open until {closeHour}:00. Come visit us or order online!</p>
-          <button className='btn'>Order</button>
-        </div>
+      {isOpen ? (
+        <Order closeHour={closeHour} openHour={openHour} />
+      ) : (
+        <p>
+          Sorry, we're closed. Feel free to visit us between {openHour} and
+          {closeHour}.
+        </p>
       )}
     </footer>
+  );
+}
+
+function Order({ closeHour, openHour }) {
+  return (
+    <div className='order'>
+      <p>
+        We're open from {openHour}:00 until {closeHour}:00. Come visit us or
+        order online!
+      </p>
+      <button className='btn'>Order</button>
+    </div>
   );
 }
 
